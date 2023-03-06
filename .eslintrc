@@ -1,0 +1,15 @@
+{
+    "extends": ["airbnb", "prettier", "prettier/react"],
+    "plugins": ["prettier"],
+    "rules": {
+      "prettier/prettier": ["error", { "singleQuote": true }],
+      "quotes": [2, "single", { "avoidEscape": true }],
+      "react/jsx-filename-extension": [
+        1,
+        {
+          "extensions": [".js", ".tsx"]
+        }
+      ]
+    },
+    "parser": "babel-eslint",
+  }
