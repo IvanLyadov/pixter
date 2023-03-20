@@ -38,8 +38,9 @@ function SignUp() {
     <div className="flex m-auto h-[100vh]">
       <div className="w-full max-w-xs m-auto">
         <form
+          id="form"
+          aria-label="form"
           className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
-          role="form"
         >
           <div className="mb-4">
             <label
