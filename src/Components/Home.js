@@ -1,7 +1,7 @@
 function Home() {
   return (
     <div className="App">
-        <header className="App-header">
+        <header className="App-header text-3xl font-bold">
             Hello world
       </header>
     </div>
