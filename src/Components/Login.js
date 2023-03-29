@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { signUp } from "../api/api";
 
 function Home() {
   const dispatch = useDispatch();
