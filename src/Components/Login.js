@@ -20,7 +20,6 @@ function Home() {
         <h1>Count: {counter}</h1>
         <button onClick={increment}>+</button>
         <button onClick={decrement}>-</button>
-        <button onClick={login}>Login</button>
       </header>
     </div>
   );
