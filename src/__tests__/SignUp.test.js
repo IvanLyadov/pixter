@@ -12,6 +12,7 @@ const setup = () => {
 
 test("should load form fields", () => {
   setup();
+  expect(screen.getByRole("textbox", { name: "Username" })).toBeInTheDocument();
   expect(screen.getByRole("textbox", { name: "Email" })).toBeInTheDocument();
   expect(screen.getByLabelText(/password/i)).toBeInTheDocument();
   expect(screen.getByRole("button", { name: "Sign Up" })).toBeInTheDocument();
