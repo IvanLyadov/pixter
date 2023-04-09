@@ -1,17 +1,8 @@
 import { Link } from "react-router-dom";
-// import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
+import { logInAction } from "../api/apiActions";
 
 function Login() {
-  // const dispatch = useDispatch();
-  // const decrement = () => dispatch({ type: "DECREMENT" });
-  // const increment = () => dispatch({ type: "INCREMENT" });
-
-  // const counter = useSelector((state) => {
-  //   console.log("state.count", state.counter.count);
-  //   return state.counter.count;
-  // });
-
   const [email, setEmail] = useState("");
   const [error, setError] = useState(null);
 
@@ -19,7 +10,7 @@ function Login() {
   const [errorPass, setErrorPass] = useState(null);
 
   const handlePassChange = (event) => {
-    if (event.target.value.length < 8) {
+    if (event.target.value.length < 5) {
       setErrorPass("Password should contain min 8 characters");
     } else {
       setErrorPass(null);
@@ -29,7 +20,7 @@ function Login() {
   };
 
   const loginHandel = () => {
-    console.log("login");
+    logInAction(email, password);
   };
 
   const isValidEmail = (email) => {
@@ -49,11 +40,6 @@ function Login() {
   return (
     <div className="App">
       <header className="App-header">
-        Login page
-        {/* <Link to="/">Back to home</Link> */}
-        {/* <h1>Count: {counter}</h1>
-        <button onClick={increment}>+</button>
-        <button onClick={decrement}>-</button> */}
         <div className="flex m-auto h-[100vh]">
           <div className="w-full max-w-xs m-auto">
             <form
@@ -61,6 +47,7 @@ function Login() {
               aria-label="form"
               className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
             >
+              <h3 className="text-black">Login</h3>
               <div className="mb-4 text-left">
                 <label
                   className="block text-gray-700 text-sm font-bold mb-2"
