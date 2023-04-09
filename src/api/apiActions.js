@@ -1,4 +1,4 @@
-import { signUp, logIn } from "./api";
+import { signUp, logIn, getPosts } from "./api";
 import store from "../store/store";
 
 export const signUpAction = (email, password) => {
@@ -28,6 +28,25 @@ export const logInAction = (email, password) => {
       }
     })
     .catch((error) => {
-      console.log("signin error", error);
+      console.log("log error", error);
+    });
+};
+
+export const getPostsAction = () => {
+  getPosts()
+    .then((response) => {
+      if (response.status === 200) {
+        return response.json();
+      }
+    })
+    .then((result) => {
+      console.log("posts", result.posts);
+      store.dispatch({
+        type: "UPDATE_POSTS",
+        posts: result.posts,
+      });
+    })
+    .catch((error) => {
+      console.log("post error", error);
     });
 };

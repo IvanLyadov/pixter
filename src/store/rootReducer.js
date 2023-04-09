@@ -1,8 +1,8 @@
 import { combineReducers } from "redux";
 import toast from "./reducers/toast";
-import counter from "./reducers/counter";
+import posts from "./reducers/posts";
 
 export default combineReducers({
   toast,
-  counter,
+  posts,
 });

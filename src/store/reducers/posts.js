@@ -1,14 +1,11 @@
 const initialState = {
-  count: 1,
+  posts: [],
 };
 
 const rootReducer = (state = initialState, action) => {
   switch (action.type) {
-    case "INCREMENT":
-      return { count: state.count + 1 };
-    case "DECREMENT":
-      console.log("state", state);
-      return { count: state.count - 1 };
+    case "UPDATE_POSTS":
+      return { posts: action.posts };
     default:
       return state;
   }

@@ -1,4 +1,23 @@
+import { createServer, JSONAPISerializer } from "miragejs";
+import { posts } from "../mockup/mockup";
 const API_URL = "https://localhost:44391";
+
+createServer({
+  routes() {
+    this.urlPrefix = API_URL;
+
+    this.get("/posts", () => {
+      return {
+        posts: posts,
+      };
+    });
+
+    this.passthrough();
+  },
+  serializers: {
+    application: JSONAPISerializer,
+  },
+});
 
 export const logIn = (email, password) => {
   const params = {
@@ -33,4 +52,16 @@ export const signUp = (email, password) => {
   };
 
   return fetch(`${API_URL}/auth/register`, params);
+};
+
+export const getPosts = () => {
+  const params = {
+    method: "GET",
+    cache: "no-cache",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+
+  return fetch(`${API_URL}/posts`, params);
 };
