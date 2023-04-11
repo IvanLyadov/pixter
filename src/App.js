@@ -21,10 +21,9 @@ function App() {
           type: "UPDATE_TOKEN",
           token: token,
         });
+      } else {
+        navigate("/login");
       }
-      // else {
-      //   navigate("/login");
-      // }
     });
   }, []);
 
