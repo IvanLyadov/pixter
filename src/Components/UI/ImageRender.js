@@ -66,7 +66,6 @@ const ImageRenderer = ({
 
   const handleOnClick = (e) => {
     // setIsSelected(!isSelected);
-    console.log("test");
     navigate(`/post/${photo.id}`);
   };
 

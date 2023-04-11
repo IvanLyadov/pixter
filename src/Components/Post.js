@@ -11,13 +11,11 @@ function Post() {
 
   useEffect(() => {
     const [filterPost] = posts.filter((item) => item.id === params.id);
-    console.log(filterPost, "filterPost");
     setPost(filterPost);
   }, []);
 
-  console.log(params);
   return (
-    <div className="App">
+    <div>
       {post && (
         <>
           <div>{post.postName}</div>

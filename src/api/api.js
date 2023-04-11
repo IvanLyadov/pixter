@@ -1,5 +1,6 @@
-import { createServer, JSONAPISerializer } from "miragejs";
-import { posts } from "../mockup/mockup";
+import { createServer, JSONAPISerializer, Response } from "miragejs";
+import { posts } from "../mockup/posts";
+import { stories } from "../mockup/stories";
 const API_URL = "https://localhost:44391";
 
 createServer({
@@ -10,6 +11,16 @@ createServer({
       return {
         posts: posts,
       };
+    });
+
+    this.get("/stories", () => {
+      return {
+        stories: stories,
+      };
+    });
+
+    this.post("/auth/login", (schema, request) => {
+      return new Response(200, {}, { auth: "sucess", token: "test_token" });
     });
 
     this.passthrough();
@@ -64,4 +75,16 @@ export const getPosts = () => {
   };
 
   return fetch(`${API_URL}/posts`, params);
+};
+
+export const getStories = () => {
+  const params = {
+    method: "GET",
+    cache: "no-cache",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+
+  return fetch(`${API_URL}/stories`, params);
 };

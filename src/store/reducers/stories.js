@@ -1,14 +1,11 @@
 const initialState = {
-  toast: false,
-  message: "",
+  stories: [],
 };
 
 const rootReducer = (state = initialState, action) => {
   switch (action.type) {
-    case "SHOW":
-      return { toast: true, message: action.message };
-    case "HIDE":
-      return { toast: false, message: "" };
+    case "UPDATE_STORIES":
+      return { stories: action.stories };
     default:
       return state;
   }
