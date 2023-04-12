@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { logInAction } from "../api/apiActions";
-import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 function Login() {
@@ -12,17 +11,13 @@ function Login() {
   const [password, setPassword] = useState("");
   const [errorPass, setErrorPass] = useState(null);
 
-  // const token = useSelector((state) => {
-  //   return state.user.token;
-  // });
-
   useEffect(() => {
     getToken().then((token) => {
       if (token) {
         navigate("/");
       }
     });
-  }, []);
+  }, [navigate]);
 
   const getToken = async () => {
     return localStorage.getItem("authToken");

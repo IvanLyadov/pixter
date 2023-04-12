@@ -1,6 +1,5 @@
 import "./App.css";
 import { Routes, Route } from "react-router-dom";
-import Home from "./Components/Home";
 import Profile from "./Components/Profile";
 import Post from "./Components/Post";
 import Login from "./Components/Login";
@@ -25,7 +24,7 @@ function App() {
         navigate("/login");
       }
     });
-  }, []);
+  }, [navigate]);
 
   const getToken = async () => {
     return localStorage.getItem("authToken");

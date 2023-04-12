@@ -12,7 +12,7 @@ function Post() {
   useEffect(() => {
     const [filterPost] = posts.filter((item) => item.id === params.id);
     setPost(filterPost);
-  }, []);
+  }, [params.id, posts]);
 
   return (
     <div className="mx-auto mt-5">
