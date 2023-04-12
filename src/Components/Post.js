@@ -12,15 +12,19 @@ function Post() {
   useEffect(() => {
     const [filterPost] = posts.filter((item) => item.id === params.id);
     setPost(filterPost);
-  }, []);
+  }, [params.id, posts]);
 
   return (
-    <div>
+    <div className="mx-auto mt-5">
       {post && (
-        <>
-          <div>{post.postName}</div>
+        <div className="mx-auto align-center w-[100%] max-w-[500px] bg-white">
           <img src={post.src} alt={post.postName} />
-        </>
+
+          <div className=" p-2">
+            <div>{post.postName}</div>
+            <div>{post.description}</div>
+          </div>
+        </div>
       )}
     </div>
   );

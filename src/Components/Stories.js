@@ -1,9 +1,8 @@
 import { Link } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { getStoriesAction } from "../api/apiActions";
 import { useSelector } from "react-redux";
 import Menu from "./UI/Menu";
-import hear from "../assets/heart.png";
 import hearOutline from "../assets/heart_outline.png";
 
 function Profile() {
