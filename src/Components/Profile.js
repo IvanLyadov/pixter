@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { useEffect } from "react";
-import Gallery from "react-photo-gallery";
+// import Gallery from "react-photo-gallery";
 import ImageRenderer from "./UI/ImageRender";
 import { getPostsAction } from "../api/apiActions";
 import { useSelector } from "react-redux";
@@ -30,8 +30,11 @@ function Profile() {
   return (
     <div className="grid grid-cols-[20%_80%]">
       <Menu />
-      <div>
-        <Gallery photos={posts} renderImage={imageRenderer} />;
+      <div className="mt-4">
+        {/* <Gallery photos={posts} renderImage={imageRenderer} />; */}
+        {posts.map((item) => (
+          <ImageRenderer key={item.id} photo={item} />
+        ))}
       </div>
     </div>
   );

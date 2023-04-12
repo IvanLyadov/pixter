@@ -41,16 +41,8 @@ const cont = {
   position: "relative",
 };
 
-const ImageRenderer = ({
-  index,
-  photo,
-  margin,
-  direction,
-  top,
-  left,
-  selected,
-}) => {
-  const [isSelected, setIsSelected] = useState(selected);
+const ImageRenderer = ({ photo }) => {
+  // const [isSelected, setIsSelected] = useState(selected);
   //calculate x,y scale
   const sx = (100 - (30 / photo.width) * 100) / 100;
   const sy = (100 - (30 / photo.height) * 100) / 100;
@@ -58,32 +50,35 @@ const ImageRenderer = ({
 
   const navigate = useNavigate();
 
-  if (direction === "column") {
-    cont.position = "absolute";
-    cont.left = left;
-    cont.top = top;
-  }
+  // if (direction === "column") {
+  //   cont.position = "absolute";
+  //   cont.left = left;
+  //   cont.top = top;
+  // }
 
   const handleOnClick = (e) => {
     // setIsSelected(!isSelected);
     navigate(`/post/${photo.id}`);
   };
 
-  useEffect(() => {
-    setIsSelected(selected);
-  }, [selected]);
+  // useEffect(() => {
+  //   setIsSelected(selected);
+  // }, [selected]);
   return (
     <div
-      style={{ margin, height: photo.height, width: photo.width, ...cont }}
-      className={!isSelected ? "not-selected" : ""}
+      // style={{ height: photo.height, width: photo.width, ...cont }}
+      // className={!isSelected ? "not-selected" : ""}
+      className="w-[100%] max-w-[500px] mx-auto mb-4 relative cursor-pointer"
     >
-      <Checkmark selected={isSelected ? true : false} />
+      {/* <Checkmark selected={isSelected ? true : false} /> */}
       <img
         alt={photo.title}
-        style={
-          isSelected ? { ...imgStyle, ...selectedImgStyle } : { ...imgStyle }
-        }
+        // style={
+        //   isSelected ? { ...imgStyle, ...selectedImgStyle } : { ...imgStyle }
+        // }
         {...photo}
+        src={photo.src}
+        className="w-[100%]"
         onClick={handleOnClick}
       />
       <div className="absolute bottom-[0px] bg-[#ffffffad] w-[100%] h-[30px] flex justify-between px-2 items-center">
