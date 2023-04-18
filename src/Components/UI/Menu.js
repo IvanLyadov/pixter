@@ -18,6 +18,9 @@ function Menu() {
         <li>
           <Link to="/">Posts</Link>
         </li>
+        <li>
+          <Link to="/create">Create post</Link>
+        </li>
         <li>Settings</li>
       </ul>
     </div>

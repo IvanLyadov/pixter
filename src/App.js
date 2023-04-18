@@ -6,12 +6,14 @@ import Login from "./Components/Login";
 import SignUp from "./Components/SignUp";
 import NotFound from "./Components/NotFound";
 import Stories from "./Components/Stories";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import store from "./store/store";
 import { useNavigate } from "react-router-dom";
+import CreatePost from "./Components/CreatePost";
 
 function App() {
   const navigate = useNavigate();
+  const [isGuest, setGuest] = useState(true);
 
   useEffect(() => {
     getToken().then((token) => {
@@ -20,8 +22,8 @@ function App() {
           type: "UPDATE_TOKEN",
           token: token,
         });
-      } else {
-        navigate("/login");
+
+        setGuest(false);
       }
     });
   }, [navigate]);
@@ -33,11 +35,22 @@ function App() {
   return (
     <div className="App">
       <Routes>
-        <Route path="/" element={<Profile />} />
-        <Route path="/stories" element={<Stories />} />
-        <Route path="/post/:id" element={<Post />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<SignUp />} />
+        {!isGuest && (
+          <>
+            <Route path="/" element={<Profile />} />
+            <Route path="/stories" element={<Stories />} />
+            <Route path="/post/:id" element={<Post />} />
+            <Route path="/create" element={<CreatePost />} />
+          </>
+        )}
+        {isGuest && (
+          <>
+            <Route path="/" element={<Login />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<SignUp />} />
+          </>
+        )}
+
         <Route path="*" element={<NotFound />} />
       </Routes>
     </div>

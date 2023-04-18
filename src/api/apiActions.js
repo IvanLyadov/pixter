@@ -1,4 +1,4 @@
-import { signUp, logIn, getPosts, getStories } from "./api";
+import { signUp, logIn, getPosts, getStories, createPost } from "./api";
 import store from "../store/store";
 
 export const signUpAction = (email, password) => {
@@ -19,6 +19,7 @@ export const signUpAction = (email, password) => {
 export const logInAction = (email, password) => {
   logIn(email, password)
     .then((response) => {
+      console.log("response login", response);
       if (response.status === 200) {
         store.dispatch({
           type: "SHOW",
@@ -66,6 +67,23 @@ export const getStoriesAction = () => {
         type: "UPDATE_STORIES",
         stories: result.stories,
       });
+    })
+    .catch((error) => {
+      console.log("post error", error);
+    });
+};
+
+export const createNewPostAction = (formData) => {
+  createPost(formData)
+    .then((response) => {
+      if (response.status === 200) {
+        store.dispatch({
+          type: "SHOW",
+          message: "New post has been created",
+        });
+        window.location.href = "/";
+        return response.json();
+      }
     })
     .catch((error) => {
       console.log("post error", error);
