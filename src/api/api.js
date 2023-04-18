@@ -3,32 +3,32 @@ import { posts } from "../mockup/posts";
 import { stories } from "../mockup/stories";
 const API_URL = "https://localhost:44391";
 
-createServer({
-  routes() {
-    this.urlPrefix = API_URL;
+// createServer({
+//   routes() {
+//     this.urlPrefix = API_URL;
 
-    this.get("/posts", () => {
-      return {
-        posts: posts,
-      };
-    });
+//     this.get("/posts", () => {
+//       return {
+//         posts: posts,
+//       };
+//     });
 
-    this.get("/stories", () => {
-      return {
-        stories: stories,
-      };
-    });
+//     this.get("/stories", () => {
+//       return {
+//         stories: stories,
+//       };
+//     });
 
-    this.post("/auth/login", (schema, request) => {
-      return new Response(200, {}, { auth: "sucess", token: "test_token" });
-    });
+//     this.post("/auth/login", (schema, request) => {
+//       return new Response(200, {}, { auth: "sucess", token: "test_token" });
+//     });
 
-    this.passthrough();
-  },
-  serializers: {
-    application: JSONAPISerializer,
-  },
-});
+//     this.passthrough();
+//   },
+//   serializers: {
+//     application: JSONAPISerializer,
+//   },
+// });
 
 export const logIn = (email, password) => {
   const params = {
@@ -52,14 +52,17 @@ export const logIn = (email, password) => {
  * @param password
  * @returns Promise with user data.
  */
-export const signUp = (email, password) => {
+export const signUp = (nickName, email, password) => {
   const params = {
     method: "POST",
-    headers: {},
-    data: {
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      nickName,
       email,
       password,
-    },
+    }),
   };
 
   return fetch(`${API_URL}/auth/register`, params);
@@ -87,4 +90,11 @@ export const getStories = () => {
   };
 
   return fetch(`${API_URL}/stories`, params);
+};
+
+export const createPost = (formData) => {
+  return fetch(`${API_URL}/create`, {
+    method: "POST",
+    body: formData,
+  });
 };

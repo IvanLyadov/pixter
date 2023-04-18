@@ -9,6 +9,9 @@ function SignUp() {
   const [password, setPassword] = useState("");
   const [errorPass, setErrorPass] = useState(null);
 
+  const [nickName, setNickName] = useState("");
+  const [errorNickName, setErrorNickName] = useState(null);
+
   const isValidEmail = (email) => {
     return /\S+@\S+\.\S+/.test(email);
   };
@@ -34,7 +37,15 @@ function SignUp() {
   };
 
   const signUpHandel = () => {
-    signUp(email, password);
+    signUp(nickName, email, password);
+  };
+
+  const handleNickname = (event) => {
+    if (!event.target.value.length) {
+      setErrorNickName("Nick name is required");
+    }
+
+    setNickName(event.target.value);
   };
 
   return (
@@ -44,9 +55,27 @@ function SignUp() {
           <form
             id="form"
             aria-label="form"
-            className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
+            className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 text-left"
           >
             <h3 className="text-black">Registration</h3>
+            <div className="mb-4">
+              <label
+                className="block text-gray-700 text-sm font-bold mb-2"
+                htmlFor="email"
+              >
+                Nick Name
+              </label>
+              <input
+                name="nickName"
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                id="nickName"
+                type="text"
+                placeholder="Nick name"
+                value={nickName}
+                onChange={(event) => handleNickname(event)}
+              />
+              <p className="text-red-500 text-xs italic">{errorNickName}</p>
+            </div>
             <div className="mb-4">
               <label
                 className="block text-gray-700 text-sm font-bold mb-2"
