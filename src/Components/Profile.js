@@ -5,9 +5,13 @@ import { useSelector } from "react-redux";
 import Menu from "./UI/Menu";
 
 function Profile() {
+  const auth = useSelector((state) => {
+    return state.user;
+  });
+
   useEffect(() => {
-    getPostsAction();
-  }, []);
+    getPostsAction(auth.userId, auth.accessToken);
+  }, [auth.accessToken, auth.userId]);
 
   const posts = useSelector((state) => {
     return state.posts.posts;
