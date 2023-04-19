@@ -10,6 +10,7 @@ import { useEffect, useState } from "react";
 import store from "./store/store";
 import { useNavigate } from "react-router-dom";
 import CreatePost from "./Components/CreatePost";
+import Settings from "./Components/Settings";
 
 function App() {
   const navigate = useNavigate();
@@ -17,10 +18,12 @@ function App() {
 
   useEffect(() => {
     getToken().then((token) => {
-      if (token) {
+      const userData = JSON.parse(token);
+      if (userData && userData.accessToken) {
         store.dispatch({
           type: "UPDATE_TOKEN",
-          token: token,
+          accessToken: userData.accessToken,
+          userId: userData.userId,
         });
 
         setGuest(false);
@@ -41,6 +44,7 @@ function App() {
             <Route path="/stories" element={<Stories />} />
             <Route path="/post/:id" element={<Post />} />
             <Route path="/create" element={<CreatePost />} />
+            <Route path="/settings" element={<Settings />} />
           </>
         )}
         {isGuest && (

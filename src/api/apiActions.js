@@ -19,7 +19,7 @@ export const signUpAction = (email, password) => {
 export const logInAction = (email, password) => {
   logIn(email, password)
     .then((response) => {
-      console.log("response login", response);
+      // console.log("response login", response);
       if (response.status === 200) {
         store.dispatch({
           type: "SHOW",
@@ -29,7 +29,8 @@ export const logInAction = (email, password) => {
       }
     })
     .then((result) => {
-      localStorage.setItem("authToken", result.token);
+      console.log(result);
+      localStorage.setItem("authToken", JSON.stringify(result.value));
       window.location.href = "/";
     })
     .catch((error) => {
@@ -37,8 +38,8 @@ export const logInAction = (email, password) => {
     });
 };
 
-export const getPostsAction = () => {
-  getPosts()
+export const getPostsAction = (userId, accessToken) => {
+  getPosts(userId, accessToken)
     .then((response) => {
       if (response.status === 200) {
         return response.json();
@@ -73,8 +74,8 @@ export const getStoriesAction = () => {
     });
 };
 
-export const createNewPostAction = (formData) => {
-  createPost(formData)
+export const createNewPostAction = (formData, accessToken) => {
+  createPost(formData, accessToken)
     .then((response) => {
       if (response.status === 200) {
         store.dispatch({
