@@ -37,7 +37,9 @@ function Menu() {
         <li>
           <Link to="/create">Create post</Link>
         </li>
-        <li>Settings</li>
+        <li>
+          <Link to="/settings">Settings</Link>
+        </li>
       </ul>
     </div>
   );

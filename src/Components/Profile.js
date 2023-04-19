@@ -21,9 +21,8 @@ function Profile() {
     <div className="grid grid-cols-[20%_80%]">
       <Menu />
       <div className="mt-4">
-        {posts && posts.map((item) => (
-          <ImageRenderer key={item.id} photo={item} />
-        ))}
+        {posts &&
+          posts.map((item) => <ImageRenderer key={item.id} photo={item} />)}
       </div>
     </div>
   );

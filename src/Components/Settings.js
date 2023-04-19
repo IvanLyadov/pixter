@@ -2,34 +2,25 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 import Menu from "./UI/Menu";
 import { createNewPostAction } from "../api/apiActions";
-import { useSelector } from "react-redux";
 
-function CreatePost() {
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [selectedFile, setSelectedFile] = useState(null);
-
-  const loggedInUserId = useSelector((state) => {
-    return state.user.userId;
-  });
+function Settings() {
+  const [login, setLogin] = useState("John Doe");
+  const [password, setPassword] = useState("");
+  const [selectedFile, setSelectedFile] = useState("");
 
   const fileHandler = (event) => {
     setSelectedFile(event.target.files[0]);
   };
 
-  const auth = useSelector((state) => {
-    return state.user;
-  });
-
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const formData = new FormData();
-    formData.append("authorId", loggedInUserId);
-    formData.append("photo", selectedFile);
-    formData.append("description", description);
-    formData.append("name", title);
 
-    createNewPostAction(formData, auth.accessToken);
+    const formData = new FormData();
+    formData.append("file", selectedFile);
+    formData.append("password", password);
+    formData.append("login", login);
+
+    createNewPostAction(formData);
   };
 
   return (
@@ -42,55 +33,68 @@ function CreatePost() {
             aria-label="form"
             className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
           >
-            <h3 className="text-black">New Post</h3>
+            <h3 className="text-black">User settings</h3>
+
             <div className="mb-4 text-left">
               <label className="block text-gray-700 text-sm font-bold mb-2">
-                Title
+                Login
               </label>
               <input
-                name="title"
+                name="login"
                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                id="title"
+                id="login"
                 type="text"
-                placeholder="Title"
-                value={title}
-                onChange={(event) => setTitle(event.target.value)}
+                placeholder="Login"
+                value={login}
+                onChange={(event) => setLogin(event.target.value)}
               />
             </div>
 
             <div className="mb-4 text-left">
               <label className="block text-gray-700 text-sm font-bold mb-2">
-                Description
+                Password
               </label>
-              <textarea
-                name="description"
+              <input
+                name="password"
                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                id="description"
-                type="text"
-                placeholder="Description"
-                value={description}
-                onChange={(event) => setDescription(event.target.value)}
+                id="password"
+                type="password"
+                placeholder="Password"
+                value={password}
+                onChange={(event) => setPassword(event.target.value)}
               />
             </div>
 
-            <div className="mb-4 text-left">
-              <label className="block text-gray-700 text-sm font-bold mb-2">
-                Select picture
-              </label>
-              <input
-                type="file"
-                id="picture"
-                name="picture"
-                accept="image/png, image/jpeg"
-                onChange={(event) => fileHandler(event)}
-              />
-              {selectedFile && (
-                <img
-                  className="mt-3 mx-auto"
-                  src={URL.createObjectURL(selectedFile)}
-                  alt="file"
+            <div className="mb-4 text-left flex row justify-between items-center">
+              <div className="rounded-full overflow-hidden object-contain max-w-[100px]">
+                {!selectedFile && (
+                  <img
+                    className="w-[100%]"
+                    src="http://via.placeholder.com/100x100"
+                    alt="User Name"
+                  />
+                )}
+
+                {selectedFile && (
+                  <img
+                    className="w-[100%]"
+                    src={URL.createObjectURL(selectedFile)}
+                    alt="file"
+                  />
+                )}
+              </div>
+              <div>
+                <label className="block text-gray-700 text-sm font-bold mb-2">
+                  Select picture
+                </label>
+                <input
+                  type="file"
+                  id="picture"
+                  name="picture"
+                  accept="image/png, image/jpeg"
+                  onChange={(event) => fileHandler(event)}
                 />
-              )}
+              </div>
             </div>
 
             <div className="flex items-center justify-between">
@@ -118,4 +122,4 @@ function CreatePost() {
   );
 }
 
-export default CreatePost;
+export default Settings;

@@ -10,6 +10,7 @@ import { useEffect, useState } from "react";
 import store from "./store/store";
 import { useNavigate } from "react-router-dom";
 import CreatePost from "./Components/CreatePost";
+import Settings from "./Components/Settings";
 import { setTokenForHttpClient } from "./api/apiActions";
 
 function App() {
@@ -21,7 +22,7 @@ function App() {
       if (token) {
         store.dispatch({
           type: "UPDATE_TOKEN",
-          token: token,
+          accessToken: token,
         });
         setTokenForHttpClient(token);
         setGuest(false);
@@ -57,6 +58,7 @@ function App() {
             <Route path="/stories" element={<Stories />} />
             <Route path="/post/:id" element={<Post />} />
             <Route path="/create" element={<CreatePost />} />
+            <Route path="/settings" element={<Settings />} />
           </>
         )}
         {isGuest && (

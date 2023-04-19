@@ -1,10 +1,4 @@
-import {
-  signUp,
-  logIn,
-  getPosts,
-  getStories,
-  createPost
-} from "./api";
+import { signUp, logIn, getPosts, getStories, createPost } from "./api";
 import store from "../store/store";
 import http from "axios";
 
@@ -87,11 +81,11 @@ export const getStoriesAction = () => {
 export const createNewPostAction = (formData) => {
   createPost(formData)
     .then(() => {
-        store.dispatch({
-          type: "SHOW",
-          message: "New post has been created",
-        });
-        window.location.href = "/";
+      store.dispatch({
+        type: "SHOW",
+        message: "New post has been created",
+      });
+      window.location.href = "/";
     })
     .catch((error) => {
       console.log("post error", error);
