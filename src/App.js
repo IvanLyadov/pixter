@@ -10,6 +10,7 @@ import { useEffect, useState } from "react";
 import store from "./store/store";
 import { useNavigate } from "react-router-dom";
 import CreatePost from "./Components/CreatePost";
+import { setTokenForHttpClient } from "./api/apiActions";
 
 function App() {
   const navigate = useNavigate();
@@ -22,14 +23,29 @@ function App() {
           type: "UPDATE_TOKEN",
           token: token,
         });
-
+        setTokenForHttpClient(token);
         setGuest(false);
+      }
+    });
+  }, [navigate]);
+
+  useEffect(() => {
+    getUserId().then((userId) => {
+      if (userId) {
+        store.dispatch({
+          type: "UPDATE_USERID",
+          userId: userId,
+        });
       }
     });
   }, [navigate]);
 
   const getToken = async () => {
     return localStorage.getItem("authToken");
+  };
+
+  const getUserId = async () => {
+    return localStorage.getItem("userId");
   };
 
   return (

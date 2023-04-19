@@ -2,11 +2,16 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 import Menu from "./UI/Menu";
 import { createNewPostAction } from "../api/apiActions";
+import { useSelector } from "react-redux";
 
 function CreatePost() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [selectedFile, setSelectedFile] = useState("");
+  const [selectedFile, setSelectedFile] = useState(null);
+
+  const loggedInUserId = useSelector((state) => {
+    return state.user.userId;
+  });
 
   const fileHandler = (event) => {
     setSelectedFile(event.target.files[0]);
@@ -14,11 +19,11 @@ function CreatePost() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
     const formData = new FormData();
-    formData.append("file", selectedFile);
+    formData.append("authorId", loggedInUserId);
+    formData.append("photo", selectedFile);
     formData.append("description", description);
-    formData.append("title", title);
+    formData.append("name", title);
 
     createNewPostAction(formData);
   };

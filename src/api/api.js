@@ -1,6 +1,15 @@
-import { createServer, JSONAPISerializer, Response } from "miragejs";
-import { posts } from "../mockup/posts";
-import { stories } from "../mockup/stories";
+import axios from "axios";
+import {
+  createServer,
+  JSONAPISerializer,
+  Response
+} from "miragejs";
+import {
+  posts
+} from "../mockup/posts";
+import {
+  stories
+} from "../mockup/stories";
 const API_URL = "https://localhost:44391";
 
 // createServer({
@@ -68,16 +77,14 @@ export const signUp = (nickName, email, password) => {
   return fetch(`${API_URL}/auth/register`, params);
 };
 
-export const getPosts = () => {
-  const params = {
-    method: "GET",
-    cache: "no-cache",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  };
+export const getUser = async (userId) => {
+  const {data} = await axios.get(`${API_URL}/users/${userId}`);
+  return data;
+};
 
-  return fetch(`${API_URL}/posts`, params);
+export const getPosts = async (userId) => {
+  const {data} = await axios.get(`${API_URL}/posts/${userId}`);
+  return data;
 };
 
 export const getStories = () => {
@@ -92,9 +99,16 @@ export const getStories = () => {
   return fetch(`${API_URL}/stories`, params);
 };
 
-export const createPost = (formData) => {
-  return fetch(`${API_URL}/create`, {
-    method: "POST",
-    body: formData,
-  });
-};
+export const createPost = async (formData) => {
+  const {data} = await axios.post(`${API_URL}/posts/new`, formData);
+  return data;
+}
+
+export const likePost = async (postId, userId) => {
+  const body = {
+    postId: postId,
+    userId: userId
+  }
+  const {data} = await axios.post(`${API_URL}/posts/like`, body);
+  return data;
+}

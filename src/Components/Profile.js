@@ -5,9 +5,13 @@ import { useSelector } from "react-redux";
 import Menu from "./UI/Menu";
 
 function Profile() {
+  const loggedInUserId = useSelector((state) => {
+    return state.user.userId;
+  });
+
   useEffect(() => {
-    getPostsAction();
-  }, []);
+    getPostsAction(loggedInUserId);
+  }, [loggedInUserId]);
 
   const posts = useSelector((state) => {
     return state.posts.posts;
@@ -17,7 +21,7 @@ function Profile() {
     <div className="grid grid-cols-[20%_80%]">
       <Menu />
       <div className="mt-4">
-        {posts.map((item) => (
+        {posts && posts.map((item) => (
           <ImageRenderer key={item.id} photo={item} />
         ))}
       </div>
