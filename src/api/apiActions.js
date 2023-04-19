@@ -1,5 +1,10 @@
 import { signUp, logIn, getPosts, getStories, createPost } from "./api";
 import store from "../store/store";
+import http from "axios";
+
+export const setTokenForHttpClient = (token) => {
+  http.defaults.headers.common.Authorization = `Bearer ${token}`;
+};
 
 export const signUpAction = (email, password) => {
   signUp(email, password)
@@ -19,7 +24,6 @@ export const signUpAction = (email, password) => {
 export const logInAction = (email, password) => {
   logIn(email, password)
     .then((response) => {
-      // console.log("response login", response);
       if (response.status === 200) {
         store.dispatch({
           type: "SHOW",
@@ -29,8 +33,8 @@ export const logInAction = (email, password) => {
       }
     })
     .then((result) => {
-      console.log(result);
-      localStorage.setItem("authToken", JSON.stringify(result.value));
+      localStorage.setItem("authToken", result.value.accessToken);
+      localStorage.setItem("userId", result.value.userId);
       window.location.href = "/";
     })
     .catch((error) => {
@@ -38,17 +42,17 @@ export const logInAction = (email, password) => {
     });
 };
 
-export const getPostsAction = (userId, accessToken) => {
-  getPosts(userId, accessToken)
-    .then((response) => {
-      if (response.status === 200) {
-        return response.json();
-      }
-    })
+export const getPostsAction = (userId) => {
+  getPosts(userId)
+    // .then((response) => {
+    //   if (response.status === 200) {
+    //     return response.json();
+    //   }
+    // })
     .then((result) => {
       store.dispatch({
         type: "UPDATE_POSTS",
-        posts: result.posts,
+        posts: result,
       });
     })
     .catch((error) => {
@@ -74,17 +78,14 @@ export const getStoriesAction = () => {
     });
 };
 
-export const createNewPostAction = (formData, accessToken) => {
-  createPost(formData, accessToken)
-    .then((response) => {
-      if (response.status === 200) {
-        store.dispatch({
-          type: "SHOW",
-          message: "New post has been created",
-        });
-        window.location.href = "/";
-        return response.json();
-      }
+export const createNewPostAction = (formData) => {
+  createPost(formData)
+    .then(() => {
+      store.dispatch({
+        type: "SHOW",
+        message: "New post has been created",
+      });
+      window.location.href = "/";
     })
     .catch((error) => {
       console.log("post error", error);

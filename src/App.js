@@ -11,6 +11,7 @@ import store from "./store/store";
 import { useNavigate } from "react-router-dom";
 import CreatePost from "./Components/CreatePost";
 import Settings from "./Components/Settings";
+import { setTokenForHttpClient } from "./api/apiActions";
 
 function App() {
   const navigate = useNavigate();
@@ -18,21 +19,34 @@ function App() {
 
   useEffect(() => {
     getToken().then((token) => {
-      const userData = JSON.parse(token);
-      if (userData && userData.accessToken) {
+      if (token) {
         store.dispatch({
           type: "UPDATE_TOKEN",
-          accessToken: userData.accessToken,
-          userId: userData.userId,
+          accessToken: token,
         });
-
+        setTokenForHttpClient(token);
         setGuest(false);
+      }
+    });
+  }, [navigate]);
+
+  useEffect(() => {
+    getUserId().then((userId) => {
+      if (userId) {
+        store.dispatch({
+          type: "UPDATE_USERID",
+          userId: userId,
+        });
       }
     });
   }, [navigate]);
 
   const getToken = async () => {
     return localStorage.getItem("authToken");
+  };
+
+  const getUserId = async () => {
+    return localStorage.getItem("userId");
   };
 
   return (

@@ -7,7 +7,11 @@ import { useSelector } from "react-redux";
 function CreatePost() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [selectedFile, setSelectedFile] = useState("");
+  const [selectedFile, setSelectedFile] = useState(null);
+
+  const loggedInUserId = useSelector((state) => {
+    return state.user.userId;
+  });
 
   const fileHandler = (event) => {
     setSelectedFile(event.target.files[0]);
@@ -19,12 +23,11 @@ function CreatePost() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
     const formData = new FormData();
-    formData.append("file", selectedFile);
+    formData.append("authorId", loggedInUserId);
+    formData.append("photo", selectedFile);
     formData.append("description", description);
-    formData.append("title", title);
-    formData.append("authorId", auth.userId);
+    formData.append("name", title);
 
     createNewPostAction(formData, auth.accessToken);
   };

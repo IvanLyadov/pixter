@@ -6,7 +6,13 @@ const initialState = {
 const rootReducer = (state = initialState, action) => {
   switch (action.type) {
     case "UPDATE_TOKEN":
-      return { accessToken: action.accessToken, userId: action.userId };
+      return {
+        accessToken: action.accessToken,
+      };
+    case "UPDATE_USERID":
+      return {
+        userId: action.userId,
+      };
     default:
       return state;
   }
