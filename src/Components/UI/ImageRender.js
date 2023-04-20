@@ -1,7 +1,7 @@
 import React from "react";
 import hear from "../../assets/heart.png";
 import { useNavigate } from "react-router-dom";
-import { likePost } from "../../api/api";
+import { likePostAction } from "../../api/apiActions";
 import { useSelector } from "react-redux";
 
 const ImageRenderer = ({ photo }) => {
@@ -15,7 +15,7 @@ const ImageRenderer = ({ photo }) => {
   };
 
   const img = document.getElementById(`img${photo.id}`);
-  if(img){
+  if (img) {
     img.src = "data:image/jpg;base64," + photo.photo;
   }
 
@@ -30,7 +30,12 @@ const ImageRenderer = ({ photo }) => {
       <div className="absolute bottom-[0px] bg-[#ffffffad] w-[100%] h-[30px] flex justify-between px-2 items-center">
         <span className="font-bold">{photo.name}</span>
         <span className="font-bold flex row">
-          <img className="max-w-[20px]" src={hear} alt="Likes" onClick={() => likePost(photo.id, loggedInUserId)}/>
+          <img
+            className="max-w-[20px]"
+            src={hear}
+            alt="Likes"
+            onClick={() => likePostAction(photo.id, loggedInUserId)}
+          />
           <span className="ml-1 text-[14px]">{photo.likes.length}</span>
         </span>
       </div>

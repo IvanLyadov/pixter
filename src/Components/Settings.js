@@ -26,7 +26,7 @@ function Settings() {
   return (
     <div className="grid grid-cols-[20%_80%]">
       <Menu />
-      <div className="flex m-auto w-full">
+      <div className="flex m-auto w-full justify-center">
         <div className="w-full max-w-[80%]">
           <form
             id="form"
