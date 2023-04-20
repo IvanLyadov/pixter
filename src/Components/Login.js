@@ -13,8 +13,7 @@ function Login() {
 
   useEffect(() => {
     getToken().then((token) => {
-      const userData = JSON.parse(token);
-      if (userData.accessToken) {
+      if (token.accessToken) {
         navigate("/");
       }
     });

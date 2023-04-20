@@ -1,6 +1,14 @@
-import { signUp, logIn, getPosts, getStories, createPost } from "./api";
+import {
+  signUp,
+  logIn,
+  getPosts,
+  getStories,
+  createPost,
+  likePost,
+} from "./api";
 import store from "../store/store";
 import http from "axios";
+import { cleareUserSorageCridentials } from "../helpers/helper";
 
 export const setTokenForHttpClient = (token) => {
   http.defaults.headers.common.Authorization = `Bearer ${token}`;
@@ -57,6 +65,11 @@ export const getPostsAction = (userId) => {
     })
     .catch((error) => {
       console.log("post error", error);
+
+      if (error.response.status === 401) {
+        cleareUserSorageCridentials();
+        window.location.href = "/";
+      }
     });
 };
 
@@ -89,5 +102,32 @@ export const createNewPostAction = (formData) => {
     })
     .catch((error) => {
       console.log("post error", error);
+    });
+};
+
+export const logOutAction = () => {
+  cleareUserSorageCridentials();
+  window.location.href = "/";
+};
+
+export const likePostAction = (postId, userId) => {
+  likePost(postId, userId)
+    .then((response) => {
+      const statePosts = store.getState().posts.posts.map((item) => {
+        const post = item;
+        if (post.id === response.id) {
+          post.likes = response.likes;
+        }
+
+        return post;
+      });
+
+      store.dispatch({
+        type: "UPDATE_POSTS",
+        posts: statePosts,
+      });
+    })
+    .catch((error) => {
+      console.log("like error", error);
     });
 };

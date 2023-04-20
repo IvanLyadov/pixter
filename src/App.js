@@ -5,7 +5,7 @@ import Post from "./Components/Post";
 import Login from "./Components/Login";
 import SignUp from "./Components/SignUp";
 import NotFound from "./Components/NotFound";
-import Stories from "./Components/Stories";
+import UserStories from "./Components/UserStories";
 import { useEffect, useState } from "react";
 import store from "./store/store";
 import { useNavigate } from "react-router-dom";
@@ -55,7 +55,7 @@ function App() {
         {!isGuest && (
           <>
             <Route path="/" element={<Profile />} />
-            <Route path="/stories" element={<Stories />} />
+            <Route path="/stories" element={<UserStories />} />
             <Route path="/post/:id" element={<Post />} />
             <Route path="/create" element={<CreatePost />} />
             <Route path="/settings" element={<Settings />} />

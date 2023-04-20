@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { getUser } from "../../api/api";
+import { logOutAction } from "../../api/apiActions";
 
 function Menu() {
   const [user, setUser] = useState("");
@@ -11,11 +12,10 @@ function Menu() {
   });
 
   useEffect(() => {
-    getUser(loggedInUserId)
-    .then((res) => {
+    getUser(loggedInUserId).then((res) => {
       setUser(res);
-    })
-  },[loggedInUserId]);
+    });
+  }, [loggedInUserId]);
 
   return (
     <div className="w-[100%] max-w-[200px] min-h-[100vh] p-3 bg-white">
@@ -39,6 +39,9 @@ function Menu() {
         </li>
         <li>
           <Link to="/settings">Settings</Link>
+        </li>
+        <li className="cursor-pointer" onClick={() => logOutAction()}>
+          Logout
         </li>
       </ul>
     </div>
