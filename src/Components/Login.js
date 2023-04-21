@@ -13,7 +13,7 @@ function Login() {
 
   useEffect(() => {
     getToken().then((token) => {
-      if (token.accessToken) {
+      if (token && token.accessToken) {
         navigate("/");
       }
     });
