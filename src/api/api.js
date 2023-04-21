@@ -2,7 +2,7 @@ import axios from "axios";
 // import { createServer, JSONAPISerializer, Response } from "miragejs";
 // import { posts } from "../mockup/posts";
 // import { stories } from "../mockup/stories";
-const API_URL = "https://localhost:44391";
+const API_URL = process.env.REACT_APP_API_URL;
 
 // createServer({
 //   routes() {
