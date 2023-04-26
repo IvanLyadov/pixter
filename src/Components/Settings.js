@@ -1,10 +1,12 @@
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Menu from "./UI/Menu";
-import { createNewPostAction } from "../api/apiActions";
+import { updateUserSettingsAction } from "../api/apiActions";
+import { useSelector } from "react-redux";
+import { getUser } from "../api/api";
 
 function Settings() {
-  const [login, setLogin] = useState("John Doe");
+  const [nickName, setNickName] = useState("");
   const [password, setPassword] = useState("");
   const [selectedFile, setSelectedFile] = useState("");
 
@@ -12,15 +14,25 @@ function Settings() {
     setSelectedFile(event.target.files[0]);
   };
 
+  const loggedInUserId = useSelector((state) => {
+    return state.user.userId;
+  });
+
+  useEffect(() => {
+    getUser(loggedInUserId).then((res) => {
+      setNickName(res.nickName);
+    });
+  }, [loggedInUserId]);
+
   const handleSubmit = async (event) => {
     event.preventDefault();
 
     const formData = new FormData();
-    formData.append("file", selectedFile);
-    formData.append("password", password);
-    formData.append("login", login);
+    selectedFile && formData.append("file", selectedFile);
+    password && formData.append("password", password);
+    nickName && formData.append("login", nickName);
 
-    createNewPostAction(formData);
+    updateUserSettingsAction(formData);
   };
 
   return (
@@ -37,7 +49,7 @@ function Settings() {
 
             <div className="mb-4 text-left">
               <label className="block text-gray-700 text-sm font-bold mb-2">
-                Login
+                Nick name
               </label>
               <input
                 name="login"
@@ -45,8 +57,8 @@ function Settings() {
                 id="login"
                 type="text"
                 placeholder="Login"
-                value={login}
-                onChange={(event) => setLogin(event.target.value)}
+                value={nickName}
+                onChange={(event) => setNickName(event.target.value)}
               />
             </div>
 
@@ -103,7 +115,7 @@ function Settings() {
                 type="button"
                 onClick={(event) => handleSubmit(event)}
               >
-                Create
+                Save
               </button>
               <Link
                 to="/"

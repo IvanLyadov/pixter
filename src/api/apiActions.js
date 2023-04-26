@@ -131,3 +131,17 @@ export const likePostAction = (postId, userId) => {
       console.log("like error", error);
     });
 };
+
+export const updateUserSettingsAction = (formData) => {
+  createPost(formData)
+    .then(() => {
+      store.dispatch({
+        type: "SHOW",
+        message: "Settings has been updated",
+      });
+      window.location.href = "/";
+    })
+    .catch((error) => {
+      console.log("post error", error);
+    });
+};

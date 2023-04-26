@@ -18,7 +18,7 @@ function Profile() {
   const storiesTemplate = stories.map((item) => (
     <div className="max-w-[600px] mx-auto mb-4 bg-white rounded-lg overflow-hidden mt-4">
       <div className="relative">
-        <Link to="/">
+        <Link to={`guest/${item.autor}`}>
           <div
             title={item.autor}
             className="absolute left-1 top-1 rounded-full overflow-hidden   mx-auto"

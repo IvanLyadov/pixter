@@ -68,7 +68,7 @@ function UserStories() {
 
   const storiesTemplate = stories.map((item) => (
     <div className="flex w-1/3 flex-wrap cursor-pointer" key={item.id}>
-      <Link to={"/"}>
+      <Link to={`/guest/${item.id}`}>
         <div className="w-full p-1 md:p-2">
           <img
             alt="gallery"

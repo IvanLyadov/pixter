@@ -4,6 +4,7 @@ import Profile from "./Components/Profile";
 import Post from "./Components/Post";
 import Login from "./Components/Login";
 import SignUp from "./Components/SignUp";
+import Guest from "./Components/Guest";
 import NotFound from "./Components/NotFound";
 import UserStories from "./Components/UserStories";
 import { useEffect, useState } from "react";
@@ -59,6 +60,7 @@ function App() {
             <Route path="/post/:id" element={<Post />} />
             <Route path="/create" element={<CreatePost />} />
             <Route path="/settings" element={<Settings />} />
+            <Route path="/guest/:id" element={<Guest />} />
           </>
         )}
         {isGuest && (
