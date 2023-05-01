@@ -2,9 +2,11 @@ import {
   signUp,
   logIn,
   getPosts,
-  getStories,
+  getUsers,
   createPost,
   likePost,
+  updateUserSettings,
+  getUser,
 } from "./api";
 import store from "../store/store";
 import http from "axios";
@@ -74,18 +76,14 @@ export const getPostsAction = (userId) => {
 };
 
 export const getStoriesAction = () => {
-  getStories()
+  getUsers()
     .then((response) => {
+      console.log("stories", response);
       if (response.status === 200) {
         return response.json();
       }
     })
-    .then((result) => {
-      store.dispatch({
-        type: "UPDATE_STORIES",
-        stories: result.stories,
-      });
-    })
+    .then((result) => {})
     .catch((error) => {
       console.log("post error", error);
     });
@@ -133,13 +131,14 @@ export const likePostAction = (postId, userId) => {
 };
 
 export const updateUserSettingsAction = (formData) => {
-  createPost(formData)
+  updateUserSettings(formData)
     .then(() => {
       store.dispatch({
         type: "SHOW",
         message: "Settings has been updated",
       });
       window.location.href = "/";
+      getUser();
     })
     .catch((error) => {
       console.log("post error", error);

@@ -104,3 +104,13 @@ export const likePost = async (postId, userId) => {
   const { data } = await axios.post(`${API_URL}/posts/like`, body);
   return data;
 };
+
+export const updateUserSettings = async (formData) => {
+  const { data } = await axios.put(`${API_URL}/users`, formData);
+  return data;
+};
+
+export const getUsers = async () => {
+  const { data } = await axios.get(`${API_URL}/users/`);
+  return data;
+};

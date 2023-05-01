@@ -14,11 +14,6 @@ const ImageRenderer = ({ photo }) => {
     navigate(`/post/${photo.id}`);
   };
 
-  const img = document.getElementById(`img${photo.id}`);
-  if (img) {
-    img.src = "data:image/jpg;base64," + photo.photo;
-  }
-
   return (
     <div className="w-[100%] max-w-[500px] mx-auto mb-4 relative cursor-pointer">
       <img
@@ -26,6 +21,7 @@ const ImageRenderer = ({ photo }) => {
         className="w-[100%]"
         onClick={handleOnClick}
         alt="Author"
+        src={`data:image/jpg;base64,${photo.photo}`}
       />
       <div className="absolute bottom-[0px] bg-[#ffffffad] w-[100%] h-[30px] flex justify-between px-2 items-center">
         <span className="font-bold">{photo.name}</span>
