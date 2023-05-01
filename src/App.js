@@ -33,6 +33,7 @@ function App() {
 
   useEffect(() => {
     getUserId().then((userId) => {
+      console.log("userId", userId);
       if (userId) {
         store.dispatch({
           type: "UPDATE_USERID",

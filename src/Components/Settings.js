@@ -4,13 +4,19 @@ import Menu from "./UI/Menu";
 import { updateUserSettingsAction } from "../api/apiActions";
 import { useSelector } from "react-redux";
 import { getUser } from "../api/api";
+import userIcon from "../assets/user-icon.jpg";
 
 function Settings() {
   const [nickName, setNickName] = useState("");
+  const [email, setEmail] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [password, setPassword] = useState("");
   const [selectedFile, setSelectedFile] = useState("");
+  const [avatar, setAvatar] = useState("");
 
   const fileHandler = (event) => {
+    setAvatar(event.target.files[0]);
     setSelectedFile(event.target.files[0]);
   };
 
@@ -21,6 +27,10 @@ function Settings() {
   useEffect(() => {
     getUser(loggedInUserId).then((res) => {
       setNickName(res.nickName);
+      setEmail(res.email);
+      setFirstName(res.firstName);
+      setLastName(res.lastName);
+      setAvatar(res.avatar ? `data:image/jpeg;base64,${res.avatar}` : userIcon);
     });
   }, [loggedInUserId]);
 
@@ -28,9 +38,13 @@ function Settings() {
     event.preventDefault();
 
     const formData = new FormData();
-    selectedFile && formData.append("file", selectedFile);
-    password && formData.append("password", password);
-    nickName && formData.append("login", nickName);
+    formData.append("Id", loggedInUserId);
+    nickName && formData.append("NickName", nickName);
+    firstName && formData.append("FirstName", firstName);
+    lastName && formData.append("LastName", lastName);
+    email && formData.append("Email", email);
+    password && formData.append("Password", password);
+    selectedFile && formData.append("Avatar", selectedFile);
 
     updateUserSettingsAction(formData);
   };
@@ -62,6 +76,45 @@ function Settings() {
               />
             </div>
 
+            <label className="block text-gray-700 text-sm font-bold mb-2 text-left">
+              First Name
+            </label>
+            <input
+              name="FirstName"
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mb-3"
+              id="FirstName"
+              type="text"
+              placeholder="First Name"
+              value={firstName}
+              onChange={(event) => setFirstName(event.target.value)}
+            />
+
+            <label className="block text-gray-700 text-sm font-bold mb-2 text-left">
+              Last Name
+            </label>
+            <input
+              name="LastName"
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mb-3"
+              id="FirstName"
+              type="text"
+              placeholder="Last Name"
+              value={lastName}
+              onChange={(event) => setLastName(event.target.value)}
+            />
+
+            <label className="block text-gray-700 text-sm font-bold mb-2 text-left">
+              Email
+            </label>
+            <input
+              name="email"
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mb-3"
+              id="login"
+              type="text"
+              placeholder="Email"
+              value={email}
+              onChange={(event) => setEmail(event.target.value)}
+            />
+
             <div className="mb-4 text-left">
               <label className="block text-gray-700 text-sm font-bold mb-2">
                 Password
@@ -79,12 +132,8 @@ function Settings() {
 
             <div className="mb-4 text-left flex row justify-between items-center">
               <div className="rounded-full overflow-hidden object-contain max-w-[100px]">
-                {!selectedFile && (
-                  <img
-                    className="w-[100%]"
-                    src="http://via.placeholder.com/100x100"
-                    alt="User Name"
-                  />
+                {avatar && !selectedFile && (
+                  <img className="w-[100%]" src={avatar} alt="User Name" />
                 )}
 
                 {selectedFile && (
@@ -103,6 +152,7 @@ function Settings() {
                   type="file"
                   id="picture"
                   name="picture"
+                  capture
                   accept="image/png, image/jpeg"
                   onChange={(event) => fileHandler(event)}
                 />
