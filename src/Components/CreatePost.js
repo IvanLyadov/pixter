@@ -5,7 +5,7 @@ import { createNewPostAction } from "../api/apiActions";
 import { useSelector } from "react-redux";
 import { Splide, SplideSlide } from "@splidejs/react-splide";
 import { drawImageProp, filters } from "../helpers/helper";
-import "@splidejs/react-splide/css";
+import "../assets/style/splide.min.css";
 
 function CreatePost() {
   const [title, setTitle] = useState("");
