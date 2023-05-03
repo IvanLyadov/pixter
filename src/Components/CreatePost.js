@@ -3,18 +3,69 @@ import { useState } from "react";
 import Menu from "./UI/Menu";
 import { createNewPostAction } from "../api/apiActions";
 import { useSelector } from "react-redux";
+import { Splide, SplideSlide } from "@splidejs/react-splide";
+import { drawImageProp, filters } from "../helpers/helper";
+import "@splidejs/react-splide/css";
 
 function CreatePost() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [selectedFile, setSelectedFile] = useState(null);
+  const [canvasContext, setCanvasContext] = useState(null);
+  const [selectedImageContext, setSelectedImageContext] = useState(null);
 
   const loggedInUserId = useSelector((state) => {
     return state.user.userId;
   });
 
   const fileHandler = (event) => {
+    const canvas = document.getElementById("canvas");
+    const context = canvas.getContext("2d");
+    setCanvasContext(context);
+
+    // create a new image object
+    const img = new Image();
+
+    // set the source of the image
+    img.src = URL.createObjectURL(event.target.files[0]);
+    // img.src = filterImage(URL.createObjectURL(event.target.files[0]));
+
+    // draw the image on the canvas
+    img.onload = function () {
+      setSelectedImageContext(img);
+      canvas.width = img.width;
+      canvas.height = img.height;
+      // context.drawImage(img, 0, 0);
+      var offsetX = 0.5;
+      var offsetY = 0.5;
+      drawImageProp(
+        context,
+        img,
+        0,
+        0,
+        img.width,
+        img.height,
+        offsetX,
+        offsetY
+      );
+    };
+    console.log("event.target.files[0]", event.target.files[0]);
     setSelectedFile(event.target.files[0]);
+  };
+
+  const applyFilter = (key) => {
+    canvasContext.filter = filters[key];
+
+    drawImageProp(
+      canvasContext,
+      selectedImageContext,
+      0,
+      0,
+      selectedImageContext.width,
+      selectedImageContext.height,
+      0.5,
+      0.5
+    );
   };
 
   const auth = useSelector((state) => {
@@ -23,13 +74,16 @@ function CreatePost() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const formData = new FormData();
-    formData.append("authorId", loggedInUserId);
-    formData.append("photo", selectedFile);
-    formData.append("description", description);
-    formData.append("name", title);
+    const canvas = document.getElementById("canvas");
+    canvas.toBlob(function (blob) {
+      const formData = new FormData();
+      formData.append("authorId", loggedInUserId);
+      formData.append("photo", blob, "image.png");
+      formData.append("description", description);
+      formData.append("name", title);
 
-    createNewPostAction(formData, auth.accessToken);
+      createNewPostAction(formData, auth.accessToken);
+    });
   };
 
   return (
@@ -84,14 +138,42 @@ function CreatePost() {
                 accept="image/png, image/jpeg"
                 onChange={(event) => fileHandler(event)}
               />
-              {selectedFile && (
+              {/* {selectedFile && (
                 <img
                   className="mt-3 mx-auto"
                   src={URL.createObjectURL(selectedFile)}
                   alt="file"
                 />
-              )}
+               
+              )} */}
+              <canvas id="canvas" className="object-cover w-full mb-3" />
             </div>
+            {selectedFile && (
+              <div className="mb-3 mt-[-100px] sticky top-4">
+                <Splide
+                  options={{
+                    perPage: 5,
+                    rewind: true,
+                    gap: "5px",
+                    pagination: false,
+                    trimSpace: false,
+                    focus: "center",
+                  }}
+                  aria-label="React Splide Example"
+                >
+                  {Object.keys(filters).map((keyFilter) => (
+                    <SplideSlide className="cursor-pointer">
+                      <img
+                        onClick={() => applyFilter(keyFilter)}
+                        src="https://tecdn.b-cdn.net/img/Photos/Horizontal/Nature/4-col/img%20(73).webp"
+                        alt="Normal"
+                        style={{ filter: filters[keyFilter] }}
+                      />
+                    </SplideSlide>
+                  ))}
+                </Splide>
+              </div>
+            )}
 
             <div className="flex items-center justify-between">
               <button
