@@ -3,6 +3,9 @@ import hear from "../../assets/heart.png";
 import { useNavigate } from "react-router-dom";
 import { likePostAction } from "../../api/apiActions";
 import { useSelector } from "react-redux";
+import pencilOutline from "../../assets/pencil-outline.svg";
+import chevronDown from "../../assets/chevron-down-outline.svg";
+
 
 const ImageRenderer = ({ photo }) => {
   const navigate = useNavigate();
@@ -26,6 +29,9 @@ const ImageRenderer = ({ photo }) => {
       <div className="absolute bottom-[0px] bg-[#ffffffad] w-[100%] h-[30px] flex justify-between px-2 items-center">
         <span className="font-bold">{photo.name}</span>
         <span className="font-bold flex row">
+          <div className="flex mr-5">
+            <img className="w-[20px] h-[20px] " src={chevronDown} />
+          </div>
           <img
             className="max-w-[20px]"
             src={hear}
@@ -36,6 +42,19 @@ const ImageRenderer = ({ photo }) => {
         </span>
       </div>
       <style>{`.not-selected:hover{outline:2px solid #06befa}`}</style>
+
+      <div className="absolute flex w-full flex-col">
+        <div className="bg-white pt-1 pb-5 px-5">
+          <div className="border-b-2 text-left mb-5">Lorem ipsum Lorem ipsumLorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum </div>
+          <div className="border-b-2 text-left mb-5">Lorem ipsum</div>
+        </div>
+        <textarea name="comment" className="p-2 border-2" />
+        <button 
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+        >
+          Add comment
+        </button>
+      </div>
     </div>
   );
 };
