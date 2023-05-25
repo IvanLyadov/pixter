@@ -3,8 +3,9 @@ import { useEffect, useState } from "react";
 import Menu from "./UI/Menu";
 import { updateUserSettingsAction } from "../api/apiActions";
 import { useSelector } from "react-redux";
-import { getUser } from "../api/api";
+import { getUser, deleteUser } from "../api/api";
 import userIcon from "../assets/user-icon.jpg";
+import { cleareUserSorageCridentials } from "../helpers/helper";
 
 function Settings() {
   const [nickName, setNickName] = useState("");
@@ -48,6 +49,16 @@ function Settings() {
 
     updateUserSettingsAction(formData);
   };
+
+  const removeAccount = () => {
+    const confirmRemove = window.confirm('Are you shure you want to remove?');
+    if (confirmRemove) {
+      deleteUser(loggedInUserId).then(() => {
+        cleareUserSorageCridentials();
+        window.location.href = "/";
+      });
+    }
+  }
 
   return (
     <div className="grid grid-cols-[20%_80%]">
@@ -175,6 +186,20 @@ function Settings() {
               </Link>
             </div>
           </form>
+
+        <div className="bg-white pt-1 pb-5 px-5 rounded">
+            <h3 className="text-black text-red-400 font-bold">Remove account</h3>
+            <div className="flex justify-between">
+              <span className="mr-3">Remove account permanently</span>
+              <button 
+                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                onClick={removeAccount}
+              >
+                Remove account
+              </button>
+            </div>
+          </div>
+
           <p className="text-center text-gray-500 text-xs">
             &copy;2023 Pixter.
           </p>

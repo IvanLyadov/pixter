@@ -37,7 +37,9 @@ function SignUp() {
   };
 
   const signUpHandel = () => {
-    signUp(nickName, email, password);
+    signUp(nickName, email, password).then(() => {
+      window.location.href = "/";
+    });
   };
 
   const handleNickname = (event) => {

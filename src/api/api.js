@@ -119,3 +119,8 @@ export const getPostByID = async (postId) => {
   const { data } = await axios.get(`${API_URL}/posts/post/${postId}`);
   return data;
 };
+
+export const deleteUser = async (userId) => {
+  const { data } = await axios.delete(`${API_URL}/users/${userId}`);
+  return data;
+};
