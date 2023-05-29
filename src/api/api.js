@@ -124,3 +124,13 @@ export const deleteUser = async (userId) => {
   const { data } = await axios.delete(`${API_URL}/users/${userId}`);
   return data;
 };
+
+export const postComment = async (formData) => {
+  const { data } = await axios.post(`${API_URL}/comments/new`, formData);
+  return data;
+};
+
+export const getComments = async (postId) => {
+  const { data } = await axios.get(`${API_URL}/comments/${postId}`);
+  return data;
+};
